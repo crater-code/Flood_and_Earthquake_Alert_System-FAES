@@ -1,0 +1,171 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum UserRole {
+  CITIZEN
+  NGO
+}
+
+enum DisasterType {
+  FLOOD
+  EARTHQUAKE
+}
+
+enum ReportStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum NotificationType {
+  Alert
+  STATUS_UPDATE
+  SYSTEM
+}
+
+enum ValidationDecision {
+  VERIFIED
+  REJECTED
+  NEEDS_REVIEW
+}
+
+// User Model Schema
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  password     String
+  number       String?
+  role         UserRole @default(CITIZEN)
+  isVerified   Boolean  @default(false)
+  refreshToken String?
+
+  reports       Report[]
+  notifications Notification[]
+  comments      Comment[]
+  vote          Vote[]
+  resources     Resource[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Report Model Schema
+model Report {
+  id          String       @id @default(uuid())
+  title       String
+  description String
+  type        DisasterType @default(FLOOD)
+
+  latitude     Float
+  longitude    Float
+  locationName String?
+
+  status ReportStatus @default(PENDING)
+
+  comments Comment[]
+  vote     Vote[]
+
+  validationResult ValidationResult?
+  votesCount Int @default(0)
+
+  userId String // Foreign Key
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([latitude, longitude])
+}
+
+// Resources Model
+model Resource {
+  id          String   @id @default(uuid())
+  category    String   // e.g., "Food", "Water", "Medicine", "Clothing"
+  itemName    String   // e.g., "Mineral Water 1L", "First Aid Kit"
+  quantity    Int      @default(0)
+  unit        String   // e.g., "bottles", "kg", "boxes", "units"
+  description String?  // e.g., "Available for immediate pickup"
+  
+  // Relationship fields
+  owner       User     @relation(fields: [ownerId], references: [id])
+  ownerId     String
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Indexing ownerId and category makes searching much faster
+  @@index([ownerId])
+  @@index([category])
+}
+
+// Notification Schema
+model Notification {
+  id      String @id @default(uuid())
+  title   String
+  message String
+
+  type NotificationType
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+// Validation Result Schema
+model ValidationResult {
+  id String @id @default(uuid())
+
+  reportId String @unique
+  report   Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  weatherMatch    Boolean
+  newsMatch       Boolean
+  confidenceScore Float
+
+  decision ValidationDecision
+  details  Json?
+
+  validatedAt DateTime @default(now())
+}
+
+// Comment Model Schema
+model Comment {
+  id      String @id @default(uuid())
+  content String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  reportId String
+  report   Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  postedAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([reportId])
+}
+
+// Vote Model Schema
+model Vote {
+  id    String @id @default(uuid())
+  value Int // +1 or -1
+
+  userId   String
+  reportId String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  report Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, reportId])
+  @@index([reportId])
+}

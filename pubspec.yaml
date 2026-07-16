@@ -1,0 +1,47 @@
+name: faeas_flood_quake_alert
+description: FAEAS - Flood & Earthquake Alert System. A comprehensive disaster response and community safety app for real-time alerts, emergency reporting, and disaster management.
+version: 1.0.0+1
+publish_to: none # This app is not published to pub.dev
+
+environment:
+  sdk: ">=2.18.0 <4.0.0"
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  http: ^1.2.0
+  shared_preferences: ^2.2.2
+  geolocator: ^13.0.2
+  geocoding: ^3.0.0
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
+  image_picker: ^1.0.7
+  path_provider: ^2.1.2
+  permission_handler: ^11.3.0
+  mime: ^1.0.4
+  cached_network_image: ^3.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+
+flutter:
+  uses-material-design: true
+  assets: []
+
+# App icon configuration
+flutter_icons:
+  android: true
+  ios: false
+  image_path: "assets/icon/app_icon.png"
+  min_sdk_android: 21
+
+# Build configurations
+flutter_native_splash:
+  color: "#1976D2"
+  image: "assets/icon/splash_icon.png"
+  android: true
+  ios: true
