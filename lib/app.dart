@@ -165,7 +165,7 @@ class _MainAppState extends State<MainApp> {
       body: Stack(
         children: [
           Positioned.fill(
-            bottom: 65,
+            bottom: 76,
             child: _getCurrentScreen(),
           ),
           Positioned(

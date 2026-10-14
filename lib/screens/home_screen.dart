@@ -317,41 +317,54 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                         ),
                       ),
                       // Status info
-                      Row(
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 4,
                         children: [
                           _buildStatusChip('${weather['humidity']}%'),
-                          const SizedBox(width: 8),
                           _buildStatusChip('SAT 07:45 AM'),
-                          const SizedBox(width: 8),
                           _buildStatusChip('4.4G'),
                         ],
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 16),
                       // Large time display
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.baseline,
                         textBaseline: TextBaseline.alphabetic,
                         children: [
-                          Text(
-                            '$displayHour:$minute',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: isTablet ? 72 : 56,
-                              fontWeight: FontWeight.w200,
-                              letterSpacing: -2,
-                              shadows: [Shadow(color: Colors.black38, blurRadius: 8)],
+                          Flexible(
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.centerLeft,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.baseline,
+                                textBaseline: TextBaseline.alphabetic,
+                                children: [
+                                  Text(
+                                    '$displayHour:$minute',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: isTablet ? 72 : 52,
+                                      fontWeight: FontWeight.w200,
+                                      letterSpacing: -2,
+                                      shadows: [Shadow(color: Colors.black38, blurRadius: 8)],
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    isPM ? 'PM' : 'AM',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      shadows: [Shadow(color: Colors.black38, blurRadius: 4)],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          Text(
-                            isPM ? 'PM' : 'AM',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                              shadows: [Shadow(color: Colors.black38, blurRadius: 4)],
-                            ),
-                          ),
-                          const Spacer(),
+                          const SizedBox(width: 12),
                           // Temperature display
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -363,7 +376,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                     '${weather['temp']}°C',
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 36,
+                                      fontSize: 32,
                                       fontWeight: FontWeight.w400,
                                       shadows: [Shadow(color: Colors.black38, blurRadius: 4)],
                                     ),
@@ -372,7 +385,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                 ],
                               ),
                               Text('Feels like: ${weather['temp']}°C', style: TextStyle(color: Colors.white70, fontSize: 11)),
-                              Text(weather['condition'], style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500)),
+                              Text(weather['condition'], style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500), maxLines: 1, overflow: TextOverflow.ellipsis),
                             ],
                           ),
                         ],

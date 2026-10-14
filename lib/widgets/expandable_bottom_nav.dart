@@ -72,6 +72,7 @@ class _ExpandableBottomNavState extends State<ExpandableBottomNav>
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final expandedHeight = screenHeight * 0.55;
+    const collapsedHeight = 76.0;
 
     return GestureDetector(
       onVerticalDragUpdate: _handlePanUpdate,
@@ -80,7 +81,7 @@ class _ExpandableBottomNavState extends State<ExpandableBottomNav>
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
-        height: _isExpanded ? expandedHeight : 65,
+        height: _isExpanded ? expandedHeight : collapsedHeight,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -118,18 +119,19 @@ class _ExpandableBottomNavState extends State<ExpandableBottomNav>
   Widget _buildCollapsedNav() {
     final role = ApiService.currentRole ?? 'CITIZEN';
     final items = _getNavItems(role);
+    const collapsedHeight = 76.0;
     
     return SizedBox(
-      height: 65,
+      height: collapsedHeight,
       child: Column(
         children: [
           // Swipe indicator handle
           Container(
-            margin: const EdgeInsets.only(top: 8, bottom: 4),
-            height: 4,
-            width: 40,
+            margin: const EdgeInsets.only(top: 6, bottom: 2),
+            height: 3,
+            width: 36,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.7),
+              color: Colors.white.withOpacity(0.6),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -137,7 +139,7 @@ class _ExpandableBottomNavState extends State<ExpandableBottomNav>
           // Navigation items row
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: items.asMap().entries.map((entry) {
@@ -158,6 +160,7 @@ class _ExpandableBottomNavState extends State<ExpandableBottomNav>
 
   Widget _buildNavItem(NavItem item, bool isSelected) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         // Fix: Prevent double navigation by checking current route
         if (widget.currentRoute != item.route) {
@@ -172,14 +175,14 @@ class _ExpandableBottomNavState extends State<ExpandableBottomNav>
         }
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              padding: const EdgeInsets.all(6),
+              padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
                 color: isSelected 
                     ? Colors.white.withOpacity(0.2)
@@ -188,22 +191,25 @@ class _ExpandableBottomNavState extends State<ExpandableBottomNav>
               ),
               child: Icon(
                 item.icon,
-                size: isSelected ? 22 : 20,
+                size: isSelected ? 20 : 18,
                 color: isSelected ? Colors.white : Colors.white.withOpacity(0.7),
               ),
             ),
             const SizedBox(height: 2),
-            AnimatedDefaultTextStyle(
-              duration: const Duration(milliseconds: 200),
-              style: TextStyle(
-                fontSize: isSelected ? 10 : 9,
-                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                color: isSelected ? Colors.white : Colors.white.withOpacity(0.7),
-              ),
-              child: Text(
-                item.label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: AnimatedDefaultTextStyle(
+                duration: const Duration(milliseconds: 200),
+                style: TextStyle(
+                  fontSize: isSelected ? 10 : 9,
+                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                  color: isSelected ? Colors.white : Colors.white.withOpacity(0.7),
+                ),
+                child: Text(
+                  item.label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ),
           ],
@@ -247,7 +253,7 @@ class _ExpandableBottomNavState extends State<ExpandableBottomNav>
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 2.2,
+                childAspectRatio: 2.4,
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
               ),
@@ -318,6 +324,7 @@ class _ExpandableBottomNavState extends State<ExpandableBottomNav>
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   user?['name'] ?? 'Demo User',
@@ -325,6 +332,8 @@ class _ExpandableBottomNavState extends State<ExpandableBottomNav>
                     fontWeight: FontWeight.w700,
                     color: AppTheme.slate800,
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 4),
                 Container(
@@ -340,6 +349,8 @@ class _ExpandableBottomNavState extends State<ExpandableBottomNav>
                       fontSize: 10,
                       fontWeight: FontWeight.w600,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],
@@ -372,7 +383,7 @@ class _ExpandableBottomNavState extends State<ExpandableBottomNav>
           border: Border.all(color: AppTheme.slate200),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           child: Row(
             children: [
               Icon(
@@ -387,7 +398,9 @@ class _ExpandableBottomNavState extends State<ExpandableBottomNav>
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: AppTheme.slate700,
+                    fontSize: 13,
                   ),
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),

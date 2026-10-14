@@ -18,6 +18,7 @@ An enterprise-grade, real-time disaster warning, rapid emergency response, and c
 - [Key Features](#-key-features)
 - [System Architecture](#-system-architecture)
 - [Screens & Application Modules](#-screens--application-modules)
+- [Application Screenshots & UI Showcase](#-application-screenshots--ui-showcase)
 - [Project Directory Structure](#-project-directory-structure)
 - [User Roles & Permissions](#-user-roles--permissions)
 - [Demo Mode & Test Credentials](#-demo-mode--test-credentials)
@@ -102,6 +103,35 @@ FAES centralizes disaster telemetry into a cohesive, bi-directional emergency pl
 | **Hotlines Directory**| `lib/screens/hotline_screen.dart` | 1-tap call triggers for Rescue 1122, Edhi, NDMA, and local emergency centers |
 | **Location Calibration**| `lib/screens/location_calibration_screen.dart` | Geofence radius slider (10km - 100km) and manual coordinate override |
 | **Authentication** | `lib/screens/login_screen.dart` | Secure Citizen vs. NGO role login and registration |
+
+---
+
+## 📸 Application Screenshots & UI Showcase
+
+Visual previews of FAES across desktop command views and responsive mobile screens:
+
+### 🖥️ Desktop Command Dashboards
+
+#### 1. Citizen Dashboard & Real-Time Weather Telemetry
+![Citizen Dashboard Desktop](screenshots/FAES_HERO_DESK.png)
+
+* **Module**: Citizen Operations Home (`lib/screens/home_screen.dart`)
+* **Description**: Real-time disaster prevention and weather telemetry center. Displays live ambient temperature readings, predictive 5-day weather forecasts, atmospheric humidity (47%), wind velocity (12 km/h), barometric pressure (1013 hPa), and UV index indicators alongside quick-action emergency links.
+
+#### 2. Crisis Command Center (NGO Operations)
+![Crisis Command Center Desktop](screenshots/FAES_ngo_DESK.png)
+
+* **Module**: NGO Operations Command (`lib/screens/ngo_dashboard_screen.dart`)
+* **Description**: Dedicated crisis operations dashboard for NGOs and emergency responders. Features real-time incident monitoring, categorized triage metrics (Total Reports: 5, High-Severity Alerts requiring urgent action, In-Progress missions, and Resolved incidents), with rapid deployment oversight.
+
+---
+
+### 📱 Mobile Experience
+
+| Citizen Mobile Dashboard | Interactive GIS Disaster Map & Actions |
+|:---:|:---:|
+| ![Citizen Mobile Dashboard](screenshots/FAES_MOBILE.png) | ![Interactive Disaster Map](screenshots/map_mobile.png) |
+| **Mobile Weather & Incident Dashboard**<br>Adaptive mobile layout displaying hyper-local environmental telemetry, dynamic weather forecasting cards, and accessible bottom navigation for quick single-handed emergency triage. | **GIS Disaster Mapping & Quick Drawer**<br>OpenStreetMap GIS visualization with real-time GPS beacon positioning, terrain contours, and expandable action sheet for relief inventory, post updates, and hazard heatmaps. |
 
 ---
 

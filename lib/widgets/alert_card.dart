@@ -129,11 +129,15 @@ class _AlertCardState extends State<AlertCard> {
                             ),
                           ),
                           const SizedBox(width: 8),
-                          Text(
-                            widget.type,
-                            style: textTheme.bodySmall?.copyWith(
-                              color: const Color(0xFF64748B),
-                              fontWeight: FontWeight.w500,
+                          Expanded(
+                            child: Text(
+                              widget.type,
+                              style: textTheme.bodySmall?.copyWith(
+                                color: const Color(0xFF64748B),
+                                fontWeight: FontWeight.w500,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
