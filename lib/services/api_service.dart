@@ -253,6 +253,14 @@ class ApiService {
   };
 
   static String? get accessToken => _accessToken;
+  static String? get authToken => _accessToken;
+  static List<Map<String, dynamic>> get reports => _mockReports;
+  static set reports(List<Map<String, dynamic>> list) {
+    _mockReports.clear();
+    _mockReports.addAll(list);
+  }
+  static Future<List<Map<String, dynamic>>> getReports() async =>
+      (await getAllReports()).cast<Map<String, dynamic>>();
   static Map<String, String> get headers => _headers;
   static bool get isLoggedIn => _accessToken != null;
   static Map<String, dynamic>? get currentUser => _currentUser;

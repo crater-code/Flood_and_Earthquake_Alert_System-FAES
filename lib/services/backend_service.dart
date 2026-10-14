@@ -88,7 +88,7 @@ class BackendService {
     } catch (e) {
       // Fallback to mock data if backend is unavailable
       debugPrint('Backend unavailable, using mock data: $e');
-      return ApiService.getAllReports();
+      return (await ApiService.getAllReports()).cast<Map<String, dynamic>>();
     }
   }
 
